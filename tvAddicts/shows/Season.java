@@ -1,4 +1,4 @@
-package shows;
+package tvAddicts.shows;
 
 import java.util.List;
 

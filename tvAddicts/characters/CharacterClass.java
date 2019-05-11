@@ -1,6 +1,6 @@
-package characters;
+package tvAddicts.characters;
 
-import shows.Event;
+import tvAddicts.shows.Event;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -44,17 +44,17 @@ public class CharacterClass implements Character {
     }
 
     @Override
-    public List getParents() {
+    public List<Character> getParents() {
         return this.parents;
     }
 
     @Override
-    public List getKids() {
+    public List<Character> getKids() {
         return this.kids;
     }
 
     @Override
-    public List getSiblings() {
+    public List<Character> getSiblings() {
         return this.siblings;
     }
 
@@ -65,7 +65,7 @@ public class CharacterClass implements Character {
     }
 
     @Override
-    public List getRomances() {
+    public List<Character> getRomances() {
         return this.romances;
     }
 
@@ -76,7 +76,7 @@ public class CharacterClass implements Character {
     }
 
     @Override
-    public List getEvents() {
+    public List<Event> getEvents() {
         return this.events;
     }
 

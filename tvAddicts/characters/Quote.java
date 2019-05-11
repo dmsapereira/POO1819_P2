@@ -1,4 +1,4 @@
-package characters;
+package tvAddicts.characters;
 
 import java.util.Map;
 

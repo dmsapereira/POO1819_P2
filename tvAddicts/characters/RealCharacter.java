@@ -1,4 +1,4 @@
-package characters;
+package tvAddicts.characters;
 
 public interface RealCharacter extends Character {
 

@@ -1,7 +1,7 @@
-package shows;
+package tvAddicts.shows;
 
-import characters.Character;
-import exceptions.DuplicateCharacterException;
+import tvAddicts.characters.Character;
+import tvAddicts.exceptions.DuplicateCharacterException;
 
 import java.util.HashMap;
 import java.util.LinkedList;

@@ -1,4 +1,4 @@
-package characters;
+package tvAddicts.characters;
 
 public class VirtualCharacterClass extends CharacterClass implements VirtualCharacter {
 

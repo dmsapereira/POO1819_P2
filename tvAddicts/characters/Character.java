@@ -1,6 +1,6 @@
-package characters;
+package tvAddicts.characters;
 
-import shows.Event;
+import tvAddicts.shows.Event;
 
 import java.util.List;
 
