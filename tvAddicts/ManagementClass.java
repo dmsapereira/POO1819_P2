@@ -1,5 +1,6 @@
 package tvAddicts;
 
+import org.omg.CORBA.DynAnyPackage.Invalid;
 import tvAddicts.characters.*;
 import tvAddicts.characters.Character;
 import tvAddicts.exceptions.*;
@@ -43,7 +44,7 @@ public class ManagementClass implements  Management {
     }
 
     @Override
-    public Show addSeason(String showName) throws NoCurrentShowException {
+    public Show addSeason() throws NoCurrentShowException {
         if(this.currentShow == null)
             throw new NoCurrentShowException();
         this.currentShow.addSeason();
@@ -60,8 +61,7 @@ public class ManagementClass implements  Management {
         return this.currentShow;
     }
 
-    @Override
-    public RealCharacter addRealCharacter(String characterName, String actorName, int fee) throws NoCurrentShowException, DuplicateCharacterException, InvalidFeeException {
+    private RealCharacter addRealCharacter(String characterName, String actorName, int fee) throws NoCurrentShowException, DuplicateCharacterException, InvalidFeeException {
         Actor actor;
 
         if(this.currentShow == null)
@@ -82,8 +82,7 @@ public class ManagementClass implements  Management {
         return character;
     }
 
-    @Override
-    public VirtualCharacter addVirtualCharacter(String characterName, String companyName, int cost) throws NoCurrentShowException, DuplicateCharacterException, InvalidFeeException {
+    private VirtualCharacter addVirtualCharacter(String characterName, String companyName, int cost) throws NoCurrentShowException, DuplicateCharacterException, InvalidFeeException {
         Company company;
 
         if(this.currentShow == null)
@@ -101,6 +100,22 @@ public class ManagementClass implements  Management {
         this.getCurrentShow().getCharacters().put(characterName, character);
         company.addCGI(character);
         this.companies.put(companyName, company);
+        return character;
+    }
+
+    @Override
+    public Character addCharacter(String type, String name, String company_actor, int cost) throws NoCurrentShowException, InvalidCharacterType, DuplicateCharacterException, InvalidFeeException {
+        Character character;
+        switch (type) {
+            case "real":
+                character = addRealCharacter(name, company_actor, cost);
+                break;
+            case "virtual":
+                character = addVirtualCharacter(name, company_actor, cost);
+                break;
+            default:
+                throw new InvalidCharacterType();
+        }
         return character;
     }
 
@@ -244,12 +259,47 @@ public class ManagementClass implements  Management {
     }
 
     @Override
-    public Iterator<Character> mostRomantic(String character) throws VoidRelationshipsException, VoidCharacterException {
-        //TODO
+    public Iterator<Actor> mostRomantic(String actorName) throws VoidRomanceException, VoidCharacterException {
+        Actor actor;
+        Set<Actor> actors = new TreeSet<>();
+        int romances = 0;
+        for (Show show : this.shows.values())
+            romances += show.getNumberOfRomances();
+        if (romances == 0)
+            throw new VoidRomanceException();
+        if (!this.actors.containsKey(actorName))
+            throw new VoidCharacterException(actorName);
+
+        actor = this.actors.get(actorName);
+        for (Actor a : this.actors.values())
+            if (a.getNumberOfRomances() >= actor.getNumberOfRomances())
+                actors.add(a);
+        return actors.iterator();
     }
 
     @Override
     public Company kingOfCGI() throws VoidVirtualCharactersException {
-        return null;
+        int kcount, ccount;
+        Company king = null;
+        if (this.companies.size() == 0)
+            throw new VoidVirtualCharactersException();
+
+        for (Company company : this.companies.values()) {
+            if (king == null)
+                king = company;
+            else {
+                kcount = king.getTotalCost();
+                ccount = company.getTotalCost();
+                if (kcount == ccount) {
+                    if (king.getCGI().size() == company.getCGI().size()) {
+                        if (king.getName().compareTo(company.getName()) < 0)
+                            king = company;
+                    } else if (king.getCGI().size() < company.getCGI().size())
+                        king = company;
+                } else if (kcount < ccount)
+                    king = company;
+            }
+        }
+        return king;
     }
 }

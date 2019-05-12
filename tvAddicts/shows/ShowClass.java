@@ -1,11 +1,9 @@
 package tvAddicts.shows;
 
 import tvAddicts.characters.*;
-;
 import tvAddicts.characters.Character;
 import tvAddicts.exceptions.DuplicateCharacterException;
 import tvAddicts.exceptions.InvalidRomanceException;
-import tvAddicts.exceptions.SameCharacterException;
 import tvAddicts.exceptions.VoidCharacterException;
 
 import java.util.*;
@@ -13,14 +11,14 @@ import java.util.*;
 public class ShowClass implements Show {
 
     private String name;
+    private int romances;
     private List<Season> seasons;
     private Map<String, Character> characters;
-    private List<Romance> romances;
     private Map<String, Quote> quotes;
 
     public ShowClass(String name) {
         this.name = name;
-        this.romances = new LinkedList<>();
+        this.romances = 0;
         this.seasons = new LinkedList<>();
         this.characters = new HashMap<>();
         this.quotes = new TreeMap<>();
@@ -42,6 +40,14 @@ public class ShowClass implements Show {
     }
 
     @Override
+    public int getNumberOfEpisodes() {
+        int counter = 0;
+        for (Season season : this.seasons)
+            counter += season.getEpisodes().size();
+        return counter;
+    }
+
+    @Override
     public void addCharacter(Character character) throws DuplicateCharacterException {
         if (this.characters.containsKey(character.getName()))
             throw new DuplicateCharacterException();
@@ -55,8 +61,6 @@ public class ShowClass implements Show {
 
     @Override
     public void addRomance(String character1, String character2) throws InvalidRomanceException, VoidCharacterException {
-        Romance r;
-
         if(character1.equals(character2))
             throw new InvalidRomanceException(character1);
         if(!this.characters.containsKey(character1))
@@ -64,12 +68,12 @@ public class ShowClass implements Show {
         if(!this.characters.containsKey(character2))
             throw new VoidCharacterException(character2);
 
-        r = new RomanceClass(this.characters.get(character1), this.characters.get(character2));
-        this.romances.add(r);
+        this.characters.get(character1).addRomance(this.characters.get(character2));
+        this.romances++;
     }
 
     @Override
-    public List<Romance> getRomances() {
+    public int getNumberOfRomances() {
         return this.romances;
     }
 

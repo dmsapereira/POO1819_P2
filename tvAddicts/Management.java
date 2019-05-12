@@ -1,9 +1,7 @@
 package tvAddicts;
 
+import tvAddicts.characters.*;
 import tvAddicts.characters.Character;
-import tvAddicts.characters.Company;
-import tvAddicts.characters.RealCharacter;
-import tvAddicts.characters.VirtualCharacter;
 import tvAddicts.exceptions.*;
 import tvAddicts.shows.Episode;
 import tvAddicts.shows.Show;
@@ -19,13 +17,11 @@ public interface Management {
 
     Show switchToShow(String showName) throws VoidShowException;
 
-    Show addSeason(String showName) throws NoCurrentShowException;
+    Show addSeason() throws NoCurrentShowException;
 
     Show addEpisode(int seasonNumber, String title) throws NoCurrentShowException, VoidSeasonException;
 
-    RealCharacter addRealCharacter(String characterName, String actorName, int fee) throws NoCurrentShowException, DuplicateCharacterException, InvalidFeeException, DuplicateCharacterException;
-
-    VirtualCharacter addVirtualCharacter(String characterName, String companyName, int cost) throws NoCurrentShowException, DuplicateCharacterException, InvalidFeeException;
+    Character addCharacter(String type, String name, String company_actor, int cost) throws NoCurrentShowException, DuplicateCharacterException, InvalidFeeException, InvalidCharacterType;
 
     Iterator<Character> addRelationShip(String parentName, String kidName) throws NoCurrentShowException, InvalidRelationshipException, VoidCharacterException;
 
@@ -45,7 +41,7 @@ public interface Management {
 
     Iterator<Show> alsoAppearsOn(String characterName) throws NoCurrentShowException, VoidCharacterException;
 
-    Iterator<Character> mostRomantic(String character) throws VoidRelationshipsException, VoidCharacterException;
+    Iterator<Actor> mostRomantic(String character) throws VoidRomanceException, VoidCharacterException;
 
     Company kingOfCGI() throws VoidVirtualCharactersException;
 

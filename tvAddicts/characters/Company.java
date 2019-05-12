@@ -9,4 +9,6 @@ public interface Company {
     void addCGI(VirtualCharacter character);
 
     List<VirtualCharacter> getCGI();
+
+    int getTotalCost();
 }

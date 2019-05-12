@@ -80,8 +80,7 @@ public class CharacterClass implements Character {
 
     @Override
     public void addEvent(Event event) {
-        if(!this.events.contains(event))
-            this.events.add(event);
+        this.events.add(event);
     }
 
     @Override
@@ -112,5 +111,10 @@ public class CharacterClass implements Character {
     @Override
     public int hashCode() {
         return Objects.hash(name);
+    }
+
+    @Override
+    public int compareTo(Character o) {
+        return Integer.compare(this.romances.size(), o.getRomances().size());
     }
 }

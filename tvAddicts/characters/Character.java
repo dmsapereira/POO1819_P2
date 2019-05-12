@@ -6,7 +6,7 @@ import tvAddicts.shows.Show;
 import java.util.List;
 import java.util.Set;
 
-public interface Character {
+public interface Character extends Comparable<Character> {
 
     String getName();
 

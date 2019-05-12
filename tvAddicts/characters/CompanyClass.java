@@ -27,4 +27,12 @@ public class CompanyClass implements Company {
     public List<VirtualCharacter> getCGI() {
         return this.cgi;
     }
+
+    @Override
+    public int getTotalCost() {
+        int counter = 0;
+        for (VirtualCharacter c : this.cgi)
+            counter += c.getCost();
+        return counter;
+    }
 }
