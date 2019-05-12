@@ -1,12 +1,16 @@
 package tvAddicts.characters;
 
 import tvAddicts.shows.Event;
+import tvAddicts.shows.Show;
 
 import java.util.List;
+import java.util.Set;
 
 public interface Character {
 
     String getName();
+
+    Show getShow();
 
     void addRelationship(boolean parentFound, Character character);
 
@@ -22,7 +26,7 @@ public interface Character {
 
     void addEvent(Event event);
 
-    List getEvents();
+    Set<Event> getEvents();
 
     void addQuote(Quote quote);
 

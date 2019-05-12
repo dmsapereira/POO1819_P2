@@ -6,7 +6,7 @@ public interface Company {
 
     String getName();
 
-    List<VirtualCharacter> getCGI();
-
     void addCGI(VirtualCharacter character);
+
+    List<VirtualCharacter> getCGI();
 }

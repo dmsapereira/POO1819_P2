@@ -4,14 +4,14 @@ import tvAddicts.characters.Character;
 
 public class InvalidRomanceException extends TVAddictException {
 
-    private Character character;
+    private String character;
 
-    public InvalidRomanceException(Character character) {
+    public InvalidRomanceException(String character) {
         this.character = character;
     }
 
     @Override
     public String getMessage() {
-        return this.character + " cannot be in a single person romantic relationship!";
+        return character + " cannot be in a single person romantic relationship!";
     }
 }

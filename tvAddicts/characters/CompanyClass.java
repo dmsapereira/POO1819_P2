@@ -8,10 +8,9 @@ public class CompanyClass implements Company {
     private String name;
     private List<VirtualCharacter> cgi;
 
-    public CompanyClass(String name, VirtualCharacter firstCharacter){
+    public CompanyClass(String name){
         this.name=name;
         this.cgi=new LinkedList<>();
-        this.cgi.add(firstCharacter);
     }
 
     @Override
@@ -20,12 +19,12 @@ public class CompanyClass implements Company {
     }
 
     @Override
-    public List<VirtualCharacter> getCGI() {
-        return this.cgi;
+    public void addCGI(VirtualCharacter character) {
+        this.cgi.add(character);
     }
 
     @Override
-    public void addCGI(VirtualCharacter character) {
-        this.cgi.add(character);
+    public List<VirtualCharacter> getCGI() {
+        return this.cgi;
     }
 }

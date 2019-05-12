@@ -1,6 +1,6 @@
 package tvAddicts.characters;
 
-public interface VirtualCharacter {
+public interface VirtualCharacter extends Character {
 
     Company getCompany();
 

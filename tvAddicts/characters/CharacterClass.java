@@ -1,29 +1,36 @@
 package tvAddicts.characters;
 
 import tvAddicts.shows.Event;
+import tvAddicts.shows.Show;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class CharacterClass implements Character {
 
     private String name;
+    private Show show;
     private List<Character> parents, kids, siblings, romances;
-    private List<Event> events;
+    private Set<Event> events;
     private List<Quote> quotes;
 
-    public CharacterClass (String name){
+    public CharacterClass (String name, Show show){
         this.name=name;
+        this.show = show;
         this.parents = new LinkedList<>();
         this.kids = new LinkedList<>();
         this.siblings = new LinkedList<>();
         this.romances = new LinkedList<>();
-        this.events = new LinkedList<>();
+        this.events = new TreeSet<>();
         this.quotes = new LinkedList<>();
     }
     @Override
     public String getName() {
         return this.name;
+    }
+
+    @Override
+    public Show getShow() {
+        return this.show;
     }
 
     @Override
@@ -60,8 +67,10 @@ public class CharacterClass implements Character {
 
     @Override
     public void addRomance(Character character) {
-        if(!this.romances.contains(character))
+        if(!this.romances.contains(character)) {
             this.romances.add(character);
+            character.addRomance(this);
+        }
     }
 
     @Override
@@ -76,7 +85,7 @@ public class CharacterClass implements Character {
     }
 
     @Override
-    public List<Event> getEvents() {
+    public Set<Event> getEvents() {
         return this.events;
     }
 
@@ -90,5 +99,18 @@ public class CharacterClass implements Character {
     @Override
     public List getQuotes() {
         return this.quotes;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CharacterClass that = (CharacterClass) o;
+        return Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 }

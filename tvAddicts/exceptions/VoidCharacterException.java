@@ -1,17 +1,15 @@
 package tvAddicts.exceptions;
 
-import tvAddicts.characters.Character;
-
 public class VoidCharacterException extends TVAddictException {
 
-    private Character character;
+    private String character;
 
-    public VoidCharacterException(Character character) {
+    public VoidCharacterException(String character) {
         this.character = character;
     }
 
     @Override
     public String getMessage() {
-        return "Who is " + this.character.getName() + "?";
+        return "Who is " + character + "?";
     }
 }
