@@ -53,11 +53,14 @@ public class ManagementClass implements  Management {
 
     @Override
     public Show addEpisode(int seasonNumber, String title) throws NoCurrentShowException, VoidSeasonException {
+        Season season;
         if(this.currentShow == null)
             throw new NoCurrentShowException();
         if(this.currentShow.getSeasons().size() < seasonNumber)
             throw new VoidSeasonException();
-        this.currentShow.getSeasons().get(seasonNumber - 1).addEpisode(new EpisodeClass(title));
+
+        season = this.currentShow.getSeasons().get(seasonNumber - 1);
+        season.addEpisode(new EpisodeClass(title, seasonNumber, season.getEpisodes().size() + 1));
         return this.currentShow;
     }
 
@@ -168,7 +171,7 @@ public class ManagementClass implements  Management {
             characters.add(this.currentShow.getCharacters().get(character));
         }
         event = new EventClass(description, season, episode, characters);
-        this.currentShow.getSeasons().get(season - 1).getEpisodes().get(episode).addEvent(event);
+        this.currentShow.getSeasons().get(season - 1).getEpisodes().get(episode - 1).addEvent(event);
     }
 
     @Override

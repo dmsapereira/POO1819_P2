@@ -6,6 +6,10 @@ public interface Episode {
 
     String getTitle();
 
+    int getSeasonNumber();
+
+    int getEpisodeNumber();
+
     void addEvent(Event event);
 
     List<Event> getEvents();

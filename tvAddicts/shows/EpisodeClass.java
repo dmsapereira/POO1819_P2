@@ -6,8 +6,11 @@ import java.util.List;
 public class EpisodeClass implements Episode {
     private String title;
     private List<Event> events;
+    private int seasonNumber, episodeNumber;
 
-    public EpisodeClass(String title){
+    public EpisodeClass(String title, int seasonNumber, int episodeNumber) {
+        this.episodeNumber = episodeNumber;
+        this.seasonNumber = seasonNumber;
         this.title=title;
         this.events=new LinkedList<>();
     }
@@ -15,6 +18,16 @@ public class EpisodeClass implements Episode {
     @Override
     public String getTitle() {
         return this.title;
+    }
+
+    @Override
+    public int getSeasonNumber() {
+        return this.seasonNumber;
+    }
+
+    @Override
+    public int getEpisodeNumber() {
+        return this.episodeNumber;
     }
 
     @Override

@@ -4,7 +4,7 @@ import tvAddicts.characters.Character;
 
 import java.util.List;
 
-public interface Event {
+public interface Event extends Comparable<Event> {
 
     String getDescription();
 

@@ -3,12 +3,17 @@ import tvAddicts.ManagementClass;
 import tvAddicts.characters.Character;
 import tvAddicts.characters.RealCharacter;
 import tvAddicts.exceptions.TVAddictException;
+import tvAddicts.shows.Episode;
+import tvAddicts.shows.Event;
 import tvAddicts.shows.Show;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 
 enum Command {
-    CURRENTSHOW, ADDSHOW, SWITCHTOSHOW, ADDSEASON, ADDEPISODE, ADDCHARACTER, ADDRELATIONSHIP, ADDROMANCE, ADDEVENT, ADDQUOTE, SEASONSOUTLINE, CHARACTERRESUME, HOWARETHESETWORELATED, FAMOUSQUOTES, ALSOAPPEARSON, MOSTROMANTIC, KINGOFCGI, HELP, EXIT
+    CURRENTSHOW, ADDSHOW, SWITCHTOSHOW, ADDSEASON, ADDEPISODE, ADDCHARACTER, ADDRELATIONSHIP, ADDROMANCE, ADDEVENT, ADDQUOTE, SEASONSOUTLINE, CHARACTERRESUME, HOWARETHESETWORELATED, FAMOUSQUOTES, ALSOAPPEARSON, MOSTROMANTIC, KINGOFCGI, HELP, EXIT, UNKNOWN
 }
 
 public class Main {
@@ -21,64 +26,212 @@ public class Main {
         Scanner in = new Scanner(System.in);
         Management system = new ManagementClass();
         processComand(in, system);
+        System.out.println(EXIT);
     }
 
     private static void processComand(Scanner in, Management system) {
         //TODO
-        Command command = Command.valueOf(in.nextLine().toUpperCase());
-        while (!command.equals(Command.EXIT)) {
-            in.nextLine();
-            switch (command) {
-                case CURRENTSHOW:
-                    processCurrentShow(in, system);
-                    break;
-                case ADDSHOW:
-                    processAddShow(in, system);
-                    break;
-                case SWITCHTOSHOW:
-                    processSwitchToShow(in, system);
-                    break;
-                case ADDSEASON:
-                    processAddSeason(system);
-                    break;
-                case ADDEPISODE:
-                    processAddEpisode(in, system);
-                    break;
-                case ADDCHARACTER:
-                    processAddCharacter(in, system);
-                    break;
-                case ADDRELATIONSHIP:
-                    break;
-                case ADDROMANCE:
-                    break;
-                case ADDEVENT:
-                    break;
-                case ADDQUOTE:
-                    break;
-                case SEASONSOUTLINE:
-                    break;
-                case CHARACTERRESUME:
-                    break;
-                case HOWARETHESETWORELATED:
-                    break;
-                case FAMOUSQUOTES:
-                    break;
-                case ALSOAPPEARSON:
-                    break;
-                case MOSTROMANTIC:
-                    break;
-                case KINGOFCGI:
-                    break;
-                case HELP:
-                    processHelp();
-                    break;
-                case EXIT:
-                    break;
-                default:
-                    processUnknownCommand();
-                    break;
-            }
+        Command command;
+        try {
             command = Command.valueOf(in.nextLine().toUpperCase());
+        } catch (IllegalArgumentException e) {
+            command = Command.UNKNOWN;
+        }
+        while (!command.equals(Command.EXIT)) {
+            try {
+                switch (command) {
+                    case CURRENTSHOW:
+                        processCurrentShow(system);
+                        break;
+                    case ADDSHOW:
+                        processAddShow(in, system);
+                        break;
+                    case SWITCHTOSHOW:
+                        processSwitchToShow(in, system);
+                        break;
+                    case ADDSEASON:
+                        processAddSeason(system);
+                        break;
+                    case ADDEPISODE:
+                        processAddEpisode(in, system);
+                        break;
+                    case ADDCHARACTER:
+                        processAddCharacter(in, system);
+                        break;
+                    case ADDRELATIONSHIP:
+                        processAddRelationship(in, system);
+                        break;
+                    case ADDROMANCE:
+                        processAddRomance(in, system);
+                        break;
+                    case ADDEVENT:
+                        processAddEvent(in, system);
+                        break;
+                    case ADDQUOTE:
+                        processAddQuote(in, system);
+                        break;
+                    case SEASONSOUTLINE:
+                        processSeasonsOutline(in, system);
+                        break;
+                    case CHARACTERRESUME:
+                        processCharacterResume(in, system);
+                        break;
+                    case HOWARETHESETWORELATED:
+                        processHowAreTheseTwoRelated(in, system);
+                        break;
+                    case FAMOUSQUOTES:
+                        break;
+                    case ALSOAPPEARSON:
+                        break;
+                    case MOSTROMANTIC:
+                        break;
+                    case KINGOFCGI:
+                        break;
+                    case HELP:
+                        processHelp();
+                        break;
+                    case EXIT:
+                        break;
+                    default:
+                        processUnknownCommand();
+                        break;
+                }
+                command = Command.valueOf(in.nextLine().toUpperCase());
+            } catch (IllegalArgumentException e) {
+                command = Command.UNKNOWN;
+            }
+        }
+    }
+
+    private static void processHowAreTheseTwoRelated(Scanner in, Management system) {
+        //TODO
+    }
+
+    private static void printEventsPerEpisode(Iterator<Episode> episodes) {
+        Iterator<Event> eventItera;
+        Episode currentEpisode;
+        if (!episodes.hasNext())
+            System.out.println("None");
+        else {
+            while (episodes.hasNext()) {
+                currentEpisode = episodes.next();
+                System.out.println("S" + currentEpisode.getSeasonNumber() + " Ep" + currentEpisode.getEpisodeNumber() + ":");
+                eventItera = currentEpisode.getEvents().iterator();
+                while (eventItera.hasNext())
+                    System.out.println(eventItera.next().getDescription());
+            }
+        }
+    }
+
+    private static void printCharacterIterator(Iterator<Character> characters) {
+        if (!characters.hasNext())
+            System.out.println("None");
+        else {
+            while (characters.hasNext())
+                System.out.println(characters.next().getName());
+        }
+    }
+
+    private static void printCharacterEvents(Iterator<Event> events) {
+        Event currentEvent;
+        int currentEpisode, currentSeason;
+        if (!events.hasNext())
+            System.out.println("None");
+        else {
+            currentEpisode = 0;
+            currentSeason = 0;
+            while (events.hasNext()) {
+                currentEvent = events.next();
+                if (currentEpisode != currentEvent.getEpisode() && currentSeason != currentEvent.getSeason()) {
+                    currentEpisode = currentEvent.getEpisode();
+                    currentSeason = currentEvent.getSeason();
+                    System.out.println("S" + currentEvent.getSeason() + " Ep" + currentEvent.getEpisode() + ":");
+                }
+                System.out.println(events.next().getDescription());
+            }
+        }
+    }
+
+    private static void processCharacterResume(Scanner in, Management system) {
+        Character character;
+        String characterName = in.nextLine();
+        character = system.getCharacter(characterName);
+        System.out.print("Parents: ");
+        printCharacterIterator(character.getParents().iterator());
+        System.out.print("Kids: ");
+        printCharacterIterator(character.getKids().iterator());
+        System.out.print("Siblings: ");
+        printCharacterIterator(character.getSiblings().iterator());
+        System.out.print("Romantic relationships: ");
+        printCharacterIterator(character.getRomances().iterator());
+        printCharacterEvents(character.getEvents().iterator());
+    }
+
+    private static void processSeasonsOutline(Scanner in, Management system) {
+        Iterator<Episode> episodes;
+        try {
+            int startingSeason = in.nextInt();
+            int endingSeason = in.nextInt();
+            in.nextLine();
+            episodes = system.seasonsOutline(startingSeason, endingSeason);
+            System.out.println(system.getCurrentShow().getName());
+            printEventsPerEpisode(episodes);
+        } catch (TVAddictException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private static void processAddQuote(Scanner in, Management system) {
+        try {
+            int season = in.nextInt();
+            int episode = in.nextInt();
+            in.nextLine();
+            String character = in.nextLine();
+            String quote = in.nextLine();
+            system.addQuote(season, episode, character, quote);
+            System.out.println("Quote added.");
+        } catch (TVAddictException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private static void processAddEvent(Scanner in, Management system) {
+        List<String> participants;
+        try {
+            participants = new LinkedList<>();
+            String description = in.nextLine();
+            int season = in.nextInt();
+            int episode = in.nextInt();
+            int number = in.nextInt();
+            in.nextLine();
+            for (int i = 0; i < number; i++)
+                participants.add(in.nextLine());
+            system.addEvent(description, season, episode, participants);
+        } catch (TVAddictException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private static void processAddRomance(Scanner in, Management system) {
+        try {
+            String character1 = in.nextLine();
+            String character2 = in.nextLine();
+            system.addRomance(character1, character2);
+            System.out.println(character1 + " and " + character2 + " are now a couple.");
+        } catch (TVAddictException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    private static void processAddRelationship(Scanner in, Management system) {
+        try {
+            String parent = in.nextLine();
+            String kid = in.nextLine();
+            Iterator<Character> itera = system.addRelationShip(parent, kid);
+            System.out.println(parent + " has now " + itera.next().getKids().size() + " kids. " + kid + " has now " + itera.next().getParents().size() + " parent(s).");
+        } catch (TVAddictException e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -97,17 +250,19 @@ public class Main {
             if (character instanceof RealCharacter)
                 System.out.println(((RealCharacter) character).getActor() + " role " + ((RealCharacter) character).getActor().getRoles().size() + ".");
             else
-                System.out.println(" a virtual actor.");
+                System.out.println("a virtual actor.");
         } catch (TVAddictException e) {
             System.out.println(e.getMessage());
         }
     }
 
     private static void processAddEpisode(Scanner in, Management system) {
+        Show show;
         try {
             int season = in.nextInt();
             String title = in.nextLine();
-            system.addEpisode(season, title);
+            show = system.addEpisode(season, title);
+            System.out.printf(SWITCH_SWOW_FORMAT, show.getName(), show.getSeasons().size(), show.getNumberOfEpisodes());
         } catch (TVAddictException e) {
             System.out.println(e.getMessage());
         }
@@ -143,7 +298,7 @@ public class Main {
         }
     }
 
-    private static void processCurrentShow(Scanner in, Management system) {
+    private static void processCurrentShow(Management system) {
         try {
             Show current = system.getCurrentShow();
             System.out.printf(SWITCH_SWOW_FORMAT, current.getName(), current.getSeasons().size(), current.getNumberOfEpisodes());
@@ -171,7 +326,7 @@ public class Main {
                 "mostRomantic - find out who is at least as romantic as X\n" +
                 "kingOfCGI - fnd out which company has earned more revenue with their CGI virtual actors\n" +
                 "help - shows the available commands\n" +
-                "exit - terminates the execution of the program\n");
+                "exit - terminates the execution of the program");
     }
 
     private static void processUnknownCommand() {

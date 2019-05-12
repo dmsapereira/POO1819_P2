@@ -13,7 +13,7 @@ public class SeasonClass implements Season {
 
     @Override
     public void addEpisode(Episode episode) {
-        this.addEpisode(episode);
+        this.episodes.add(episode);
     }
 
     @Override

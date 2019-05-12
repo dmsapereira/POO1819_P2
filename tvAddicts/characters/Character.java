@@ -22,7 +22,7 @@ public interface Character extends Comparable<Character> {
 
     void addRomance(Character character);
 
-    List getRomances();
+    List<Character> getRomances();
 
     void addEvent(Event event);
 

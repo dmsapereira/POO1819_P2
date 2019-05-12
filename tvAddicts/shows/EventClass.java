@@ -40,7 +40,7 @@ public class EventClass implements Event {
         return this.participants;
     }
 
-    int compareTo(Event event){
+    public int compareTo(Event event) {
         if(this.getSeason() > event.getSeason())
             return 1;
         else if(this.getSeason() == event.getSeason()){
