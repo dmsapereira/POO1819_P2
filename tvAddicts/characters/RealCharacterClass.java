@@ -15,11 +15,11 @@ public class RealCharacterClass extends CharacterClass implements RealCharacter 
 
     @Override
     public Actor getActor() {
-        return null;
+        return this.actor;
     }
 
     @Override
     public int getFee() {
-        return 0;
+        return this.fee;
     }
 }

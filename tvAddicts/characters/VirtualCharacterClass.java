@@ -14,11 +14,11 @@ public class VirtualCharacterClass extends CharacterClass implements VirtualChar
     }
     @Override
     public Company getCompany() {
-        return null;
+        return this.company;
     }
 
     @Override
     public int getCost() {
-        return 0;
+        return this.cost;
     }
 }

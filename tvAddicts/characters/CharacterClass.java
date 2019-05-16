@@ -44,7 +44,7 @@ public class CharacterClass implements Character {
                     this.siblings.add(current);
                 current.getSiblings().add(this);
             }
-        }else{
+        } else if (!this.kids.contains(character)) {
             this.kids.add(character);
             character.getParents().add(this);
         }

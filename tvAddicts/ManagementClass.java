@@ -1,6 +1,5 @@
 package tvAddicts;
 
-import org.omg.CORBA.DynAnyPackage.Invalid;
 import tvAddicts.characters.*;
 import tvAddicts.characters.Character;
 import tvAddicts.exceptions.*;
